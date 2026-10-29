@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgrupamientosRouteImport } from './routes/agrupamientos'
+import { Route as CustodiaRouteImport } from './routes/custodia'
+import { Route as DepositosRouteImport } from './routes/depositos'
+import { Route as InventarioRouteImport } from './routes/inventario'
+import { Route as FoliosIndexRouteImport } from './routes/folios.index'
+import { Route as FoliosIdRouteImport } from './routes/folios.$id'
+import { Route as FoliosNuevoRouteImport } from './routes/folios.nuevo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgrupamientosRoute = AgrupamientosRouteImport.update({
+  id: '/agrupamientos',
+  path: '/agrupamientos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustodiaRoute = CustodiaRouteImport.update({
+  id: '/custodia',
+  path: '/custodia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepositosRoute = DepositosRouteImport.update({
+  id: '/depositos',
+  path: '/depositos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventarioRoute = InventarioRouteImport.update({
+  id: '/inventario',
+  path: '/inventario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoliosIndexRoute = FoliosIndexRouteImport.update({
+  id: '/folios/',
+  path: '/folios/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoliosIdRoute = FoliosIdRouteImport.update({
+  id: '/folios/$id',
+  path: '/folios/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoliosNuevoRoute = FoliosNuevoRouteImport.update({
+  id: '/folios/nuevo',
+  path: '/folios/nuevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agrupamientos': typeof AgrupamientosRoute
+  '/custodia': typeof CustodiaRoute
+  '/depositos': typeof DepositosRoute
+  '/inventario': typeof InventarioRoute
+  '/folios/$id': typeof FoliosIdRoute
+  '/folios/nuevo': typeof FoliosNuevoRoute
+  '/folios/': typeof FoliosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agrupamientos': typeof AgrupamientosRoute
+  '/custodia': typeof CustodiaRoute
+  '/depositos': typeof DepositosRoute
+  '/inventario': typeof InventarioRoute
+  '/folios/$id': typeof FoliosIdRoute
+  '/folios/nuevo': typeof FoliosNuevoRoute
+  '/folios': typeof FoliosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agrupamientos': typeof AgrupamientosRoute
+  '/custodia': typeof CustodiaRoute
+  '/depositos': typeof DepositosRoute
+  '/inventario': typeof InventarioRoute
+  '/folios/$id': typeof FoliosIdRoute
+  '/folios/nuevo': typeof FoliosNuevoRoute
+  '/folios/': typeof FoliosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/agrupamientos'
+    | '/custodia'
+    | '/depositos'
+    | '/inventario'
+    | '/folios/$id'
+    | '/folios/nuevo'
+    | '/folios/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/agrupamientos'
+    | '/custodia'
+    | '/depositos'
+    | '/inventario'
+    | '/folios/$id'
+    | '/folios/nuevo'
+    | '/folios'
+  id:
+    | '__root__'
+    | '/'
+    | '/agrupamientos'
+    | '/custodia'
+    | '/depositos'
+    | '/inventario'
+    | '/folios/$id'
+    | '/folios/nuevo'
+    | '/folios/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgrupamientosRoute: typeof AgrupamientosRoute
+  CustodiaRoute: typeof CustodiaRoute
+  DepositosRoute: typeof DepositosRoute
+  InventarioRoute: typeof InventarioRoute
+  FoliosIdRoute: typeof FoliosIdRoute
+  FoliosNuevoRoute: typeof FoliosNuevoRoute
+  FoliosIndexRoute: typeof FoliosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agrupamientos': {
+      id: '/agrupamientos'
+      path: '/agrupamientos'
+      fullPath: '/agrupamientos'
+      preLoaderRoute: typeof AgrupamientosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custodia': {
+      id: '/custodia'
+      path: '/custodia'
+      fullPath: '/custodia'
+      preLoaderRoute: typeof CustodiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/depositos': {
+      id: '/depositos'
+      path: '/depositos'
+      fullPath: '/depositos'
+      preLoaderRoute: typeof DepositosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventario': {
+      id: '/inventario'
+      path: '/inventario'
+      fullPath: '/inventario'
+      preLoaderRoute: typeof InventarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/folios/': {
+      id: '/folios/'
+      path: '/folios'
+      fullPath: '/folios/'
+      preLoaderRoute: typeof FoliosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/folios/$id': {
+      id: '/folios/$id'
+      path: '/folios/$id'
+      fullPath: '/folios/$id'
+      preLoaderRoute: typeof FoliosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/folios/nuevo': {
+      id: '/folios/nuevo'
+      path: '/folios/nuevo'
+      fullPath: '/folios/nuevo'
+      preLoaderRoute: typeof FoliosNuevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgrupamientosRoute: AgrupamientosRoute,
+  CustodiaRoute: CustodiaRoute,
+  DepositosRoute: DepositosRoute,
+  InventarioRoute: InventarioRoute,
+  FoliosIdRoute: FoliosIdRoute,
+  FoliosNuevoRoute: FoliosNuevoRoute,
+  FoliosIndexRoute: FoliosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
