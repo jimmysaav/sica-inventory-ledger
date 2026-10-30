@@ -11,9 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgrupamientosRouteImport } from './routes/agrupamientos'
+import { Route as AuditoriaRouteImport } from './routes/auditoria'
+import { Route as CancelacionesRouteImport } from './routes/cancelaciones'
 import { Route as CustodiaRouteImport } from './routes/custodia'
 import { Route as DepositosRouteImport } from './routes/depositos'
+import { Route as EstadoSistemaRouteImport } from './routes/estado-sistema'
 import { Route as InventarioRouteImport } from './routes/inventario'
+import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as FoliosIndexRouteImport } from './routes/folios.index'
 import { Route as FoliosIdRouteImport } from './routes/folios.$id'
 import { Route as FoliosNuevoRouteImport } from './routes/folios.nuevo'
@@ -28,6 +32,16 @@ const AgrupamientosRoute = AgrupamientosRouteImport.update({
   path: '/agrupamientos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuditoriaRoute = AuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CancelacionesRoute = CancelacionesRouteImport.update({
+  id: '/cancelaciones',
+  path: '/cancelaciones',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CustodiaRoute = CustodiaRouteImport.update({
   id: '/custodia',
   path: '/custodia',
@@ -38,9 +52,19 @@ const DepositosRoute = DepositosRouteImport.update({
   path: '/depositos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EstadoSistemaRoute = EstadoSistemaRouteImport.update({
+  id: '/estado-sistema',
+  path: '/estado-sistema',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InventarioRoute = InventarioRouteImport.update({
   id: '/inventario',
   path: '/inventario',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FoliosIndexRoute = FoliosIndexRouteImport.update({
@@ -62,9 +86,13 @@ const FoliosNuevoRoute = FoliosNuevoRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agrupamientos': typeof AgrupamientosRoute
+  '/auditoria': typeof AuditoriaRoute
+  '/cancelaciones': typeof CancelacionesRoute
   '/custodia': typeof CustodiaRoute
   '/depositos': typeof DepositosRoute
+  '/estado-sistema': typeof EstadoSistemaRoute
   '/inventario': typeof InventarioRoute
+  '/reportes': typeof ReportesRoute
   '/folios/$id': typeof FoliosIdRoute
   '/folios/nuevo': typeof FoliosNuevoRoute
   '/folios/': typeof FoliosIndexRoute
@@ -72,9 +100,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agrupamientos': typeof AgrupamientosRoute
+  '/auditoria': typeof AuditoriaRoute
+  '/cancelaciones': typeof CancelacionesRoute
   '/custodia': typeof CustodiaRoute
   '/depositos': typeof DepositosRoute
+  '/estado-sistema': typeof EstadoSistemaRoute
   '/inventario': typeof InventarioRoute
+  '/reportes': typeof ReportesRoute
   '/folios/$id': typeof FoliosIdRoute
   '/folios/nuevo': typeof FoliosNuevoRoute
   '/folios': typeof FoliosIndexRoute
@@ -83,9 +115,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agrupamientos': typeof AgrupamientosRoute
+  '/auditoria': typeof AuditoriaRoute
+  '/cancelaciones': typeof CancelacionesRoute
   '/custodia': typeof CustodiaRoute
   '/depositos': typeof DepositosRoute
+  '/estado-sistema': typeof EstadoSistemaRoute
   '/inventario': typeof InventarioRoute
+  '/reportes': typeof ReportesRoute
   '/folios/$id': typeof FoliosIdRoute
   '/folios/nuevo': typeof FoliosNuevoRoute
   '/folios/': typeof FoliosIndexRoute
@@ -95,9 +131,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agrupamientos'
+    | '/auditoria'
+    | '/cancelaciones'
     | '/custodia'
     | '/depositos'
+    | '/estado-sistema'
     | '/inventario'
+    | '/reportes'
     | '/folios/$id'
     | '/folios/nuevo'
     | '/folios/'
@@ -105,9 +145,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/agrupamientos'
+    | '/auditoria'
+    | '/cancelaciones'
     | '/custodia'
     | '/depositos'
+    | '/estado-sistema'
     | '/inventario'
+    | '/reportes'
     | '/folios/$id'
     | '/folios/nuevo'
     | '/folios'
@@ -115,9 +159,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/agrupamientos'
+    | '/auditoria'
+    | '/cancelaciones'
     | '/custodia'
     | '/depositos'
+    | '/estado-sistema'
     | '/inventario'
+    | '/reportes'
     | '/folios/$id'
     | '/folios/nuevo'
     | '/folios/'
@@ -126,9 +174,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgrupamientosRoute: typeof AgrupamientosRoute
+  AuditoriaRoute: typeof AuditoriaRoute
+  CancelacionesRoute: typeof CancelacionesRoute
   CustodiaRoute: typeof CustodiaRoute
   DepositosRoute: typeof DepositosRoute
+  EstadoSistemaRoute: typeof EstadoSistemaRoute
   InventarioRoute: typeof InventarioRoute
+  ReportesRoute: typeof ReportesRoute
   FoliosIdRoute: typeof FoliosIdRoute
   FoliosNuevoRoute: typeof FoliosNuevoRoute
   FoliosIndexRoute: typeof FoliosIndexRoute
@@ -150,6 +202,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgrupamientosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auditoria': {
+      id: '/auditoria'
+      path: '/auditoria'
+      fullPath: '/auditoria'
+      preLoaderRoute: typeof AuditoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cancelaciones': {
+      id: '/cancelaciones'
+      path: '/cancelaciones'
+      fullPath: '/cancelaciones'
+      preLoaderRoute: typeof CancelacionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/custodia': {
       id: '/custodia'
       path: '/custodia'
@@ -164,11 +230,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DepositosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/estado-sistema': {
+      id: '/estado-sistema'
+      path: '/estado-sistema'
+      fullPath: '/estado-sistema'
+      preLoaderRoute: typeof EstadoSistemaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inventario': {
       id: '/inventario'
       path: '/inventario'
       fullPath: '/inventario'
       preLoaderRoute: typeof InventarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/folios/': {
@@ -198,9 +278,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgrupamientosRoute: AgrupamientosRoute,
+  AuditoriaRoute: AuditoriaRoute,
+  CancelacionesRoute: CancelacionesRoute,
   CustodiaRoute: CustodiaRoute,
   DepositosRoute: DepositosRoute,
+  EstadoSistemaRoute: EstadoSistemaRoute,
   InventarioRoute: InventarioRoute,
+  ReportesRoute: ReportesRoute,
   FoliosIdRoute: FoliosIdRoute,
   FoliosNuevoRoute: FoliosNuevoRoute,
   FoliosIndexRoute: FoliosIndexRoute,
