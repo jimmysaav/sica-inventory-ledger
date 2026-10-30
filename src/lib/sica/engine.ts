@@ -106,7 +106,7 @@ export interface Posicion {
 export function posiciones(saldos: Map<string, number>, item: string): Posicion[] {
   const out: Posicion[] = [];
   for (const [k, qty] of saldos) {
-    const [i, dep, agr, per] = k.split("|");
+    const [i, dep = "", agr = "", per = ""] = k.split("|");
     if (i === item) out.push({ dep, agr, per, qty });
   }
   return out;
@@ -152,11 +152,11 @@ export function validarFolio(state: SicaState, f: Folio): string[] {
   const porArma = new Map<string, number>();
   for (const [k, v] of despues) {
     if (v < 0) {
-      const [item] = k.split("|");
+      const item = k.split("|")[0] ?? "";
       err.push(`Existencia insuficiente en origen para ${describirItem(state, item)}.`);
     }
     if (k.startsWith("A:")) {
-      const id = k.split("|")[0];
+      const id = k.split("|")[0] ?? "";
       porArma.set(id, (porArma.get(id) ?? 0) + v);
     }
   }

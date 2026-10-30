@@ -42,7 +42,7 @@ export function crearSeed(): SicaState {
     { tipo: "Escopeta", marca: "Marca D", modelo: "E-12", calibre: "12 GA" },
   ];
   const armas: Arma[] = Array.from({ length: 30 }, (_, i) => {
-    const m = modelos[i % modelos.length];
+    const m = modelos[i % modelos.length]!;
     return {
       id: `a${i + 1}`,
       progresivo: i + 1,

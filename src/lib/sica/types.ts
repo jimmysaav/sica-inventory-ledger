@@ -16,7 +16,7 @@ export interface Usuario {
   nombre: string;
   usuario: string;
   rol: Rol;
-  agrupamientoId?: string;
+  agrupamientoId?: string | undefined;
 }
 export interface Deposito {
   id: string;
@@ -56,42 +56,42 @@ export interface Consumible {
   detalle: string;
 }
 export interface Partida {
-  armaId?: string;
-  itemId?: string;
+  armaId?: string | undefined;
+  itemId?: string | undefined;
   cantidad: number;
 }
 export interface SolicitudCancelacion {
   motivo: string;
   solicitaUserId: string;
   fechaSolicitud: string;
-  resultado?: "aprobada" | "rechazada";
-  resuelveUserId?: string;
-  fechaResolucion?: string;
-  nota?: string;
+  resultado?: "aprobada" | "rechazada" | undefined;
+  resuelveUserId?: string | undefined;
+  fechaResolucion?: string | undefined;
+  nota?: string | undefined;
 }
 export interface Folio {
   id: string;
   numero: number;
   fecha: string;
   tipo: TipoFolio;
-  depositoOrigenId?: string;
-  agrupOrigenId?: string;
-  depositoDestinoId?: string;
-  agrupDestinoId?: string;
-  personaId?: string;
+  depositoOrigenId?: string | undefined;
+  agrupOrigenId?: string | undefined;
+  depositoDestinoId?: string | undefined;
+  agrupDestinoId?: string | undefined;
+  personaId?: string | undefined;
   capturaUserId: string;
-  autorizaUserId?: string;
-  fechaAutoriza?: string;
+  autorizaUserId?: string | undefined;
+  fechaAutoriza?: string | undefined;
   entrega: string;
   recibe: string;
   partidas: Partida[];
   obs: string;
   estado: EstadoFolio;
   /** Transferencia con traslado físico: false = traslado pendiente de confirmar */
-  fisicoConfirmado?: boolean;
-  refFolioId?: string;
-  revertidoPorId?: string;
-  cancelacion?: SolicitudCancelacion;
+  fisicoConfirmado?: boolean | undefined;
+  refFolioId?: string | undefined;
+  revertidoPorId?: string | undefined;
+  cancelacion?: SolicitudCancelacion | undefined;
 }
 export interface Auditoria {
   id: string;

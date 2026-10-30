@@ -29,7 +29,7 @@ describe("SICA reglas", () => {
 
   it("rechaza matrícula duplicada", () => {
     const s = crearSeed();
-    expect(() => registrarArma(s, "u-oper", { ...s.armas[0], matricula: s.armas[0].matricula.toLowerCase() })).toThrow(/ya está registrada/);
+    expect(() => registrarArma(s, "u-oper", { ...s.armas[0]!, matricula: s.armas[0]!.matricula.toLowerCase() })).toThrow(/ya está registrada/);
   });
 
   it("no permite extraer más existencia de la disponible", () => {

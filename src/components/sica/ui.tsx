@@ -16,7 +16,7 @@ export function PageHeader({ title, desc, actions }: { title: string; desc?: str
   );
 }
 
-export function Stat({ label, value, hint, tone }: { label: string; value: ReactNode; hint?: string; tone?: "warn" | "ok" }) {
+export function Stat({ label, value, hint, tone }: { label: string; value: ReactNode; hint?: string | undefined; tone?: "warn" | "ok" | undefined }) {
   return (
     <div className="card p-4">
       <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
