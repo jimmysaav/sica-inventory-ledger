@@ -89,7 +89,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
 function Login() {
   const s = useSica();
-  const [uid, setUid] = useState(s.usuarios[1].id);
+  const [uid, setUid] = useState(s.usuarios[1]?.id ?? "");
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
   return (
