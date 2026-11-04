@@ -354,11 +354,11 @@ export function importarArmas(state: SicaState, userId: string, armas: ArmaImpor
     const cambios = new Map(normalizadas.map((a) => [a.matricula, a]));
     let next = { ...state, armas: state.armas.map((a) => {
       const cambio = cambios.get(a.matricula.toUpperCase());
-      return cambio ? { ...a, ...cambio, id: a.id, progresivo: a.progresivo } : a;
+      return cambio ? { ...a, ...cambio, id: a.id, progresivo: a.progresivo, mantenimiento: a.mantenimiento, conservacion: a.conservacion } : a;
     }) };
     for (const a of normalizadas) {
       const anterior = state.armas.find((x) => x.matricula.toUpperCase() === a.matricula);
-      next = audit(next, userId, "LOC44_ACTUALIZA_ARMA", JSON.stringify({ referencia: referencia.trim(), matricula: a.matricula, antes: anterior, despues: a }));
+      next = audit(next, userId, "LOC44_ACTUALIZA_ARMA", JSON.stringify({ referencia: referencia.trim(), matricula: a.matricula, antes: anterior, despues: next.armas.find((x) => x.matricula === a.matricula) }));
     }
     return next;
   }
