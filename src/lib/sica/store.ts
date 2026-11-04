@@ -17,6 +17,9 @@ function load(): SicaState {
   try {
     const raw = typeof window !== "undefined" ? localStorage.getItem(KEY) : null;
     state = raw ? (JSON.parse(raw) as SicaState) : crearSeed();
+    if (!state.depositos.some((d) => d.clave.toUpperCase() === "DESSPEJA")) {
+      state = { ...state, depositos: [...state.depositos, { id: "dep-desspeja", clave: "DESSPEJA", nombre: "Depósito DESSPEJA", tipo: "general" }] };
+    }
     sesion = typeof window !== "undefined" ? sessionStorage.getItem(SESION) : null;
   } catch {
     state = crearSeed();

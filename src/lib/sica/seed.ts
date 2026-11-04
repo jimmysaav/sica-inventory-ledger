@@ -5,6 +5,7 @@ export function crearSeed(): SicaState {
   const t0 = "2026-01-05T09:00:00.000Z";
   const depositos = [
     { id: "dep-gral", clave: "DG", nombre: "Depósito General", tipo: "general" as const },
+    { id: "dep-desspeja", clave: "DESSPEJA", nombre: "Depósito DESSPEJA", tipo: "general" as const },
     { id: "dep-drag", clave: "DD", nombre: "Depósito Dragones", tipo: "regional" as const },
     { id: "dep-nte", clave: "DN", nombre: "Depósito Zona Norte", tipo: "regional" as const },
   ];
