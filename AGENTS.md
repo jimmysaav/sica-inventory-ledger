@@ -13,3 +13,5 @@
 - Domain logic lives in `src/lib/sica/engine.ts` as pure functions; UI calls them via `run()` — keeps rules testable and portable to a future server.
 - Stock balances are never stored; they are derived from applied folios (`calcularSaldos`) — required auditability.
 - Prototype persistence is browser localStorage (`store.ts`); replace with server DB per `docs/modelo-relacional.sql`.
+- LOC spreadsheet mapping and validation live in `loc44.ts`; browser ExcelJS is loaded only on user actions in `excel.ts`, so spreadsheet data remains on the device and SSR does not execute workbook processing.
+- Bulk weapon intake is an atomic engine action with a pending inventory folio; documentary updates preserve positions and audit before/after values to keep ledger integrity.
