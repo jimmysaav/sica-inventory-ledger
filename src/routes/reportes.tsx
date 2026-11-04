@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Field, PageHeader, descargarCSV, fmtFecha } from "@/components/sica/ui";
+import { Field, PageHeader, fmtFecha } from "@/components/sica/ui";
+import { descargarExcel } from "@/lib/sica/excel";
+import { Button } from "@/components/ui/button";
+import { Download, Printer } from "lucide-react";
+import { toast } from "sonner";
 import { SITUACION_LABEL, useDerivado } from "@/lib/sica/hooks";
 import { TIPO_FOLIO_LABEL, folioNumero, type Categoria } from "@/lib/sica/types";
 
@@ -70,9 +74,9 @@ function Reportes() {
 
   return (
     <div>
-      <PageHeader title="Reportes" desc="Excel: archivo CSV compatible con Microsoft Excel. PDF: mediante impresión del navegador (Guardar como PDF)." actions={<>
-        <button className="btn" onClick={() => descargarCSV(`SICA_${id}${corte ? "_" + corte : ""}`, [t.cols, ...rows])}>Descargar Excel (CSV)</button>
-        <button className="btn btn-primary" onClick={() => window.print()}>Imprimir / PDF</button>
+      <PageHeader title="Reportes" desc="Reportes institucionales · datos ficticios." actions={<>
+        <Button variant="outline" onClick={() => void descargarExcel(`SICA_${id}${corte ? "_" + corte : ""}`, t.cols, rows).catch(() => toast.error("No se pudo generar el Excel."))}><Download />Descargar Excel (XLSX)</Button>
+        <Button onClick={() => window.print()}><Printer />Imprimir / PDF</Button>
       </>} />
       <div className="no-print card mb-4 grid gap-3 p-4 sm:grid-cols-3">
         <Field label="Reporte"><select className="field" value={id} onChange={(e) => setId(e.target.value as Id)}>{REPORTES.map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></Field>

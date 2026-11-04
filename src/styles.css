@@ -197,4 +197,10 @@
   .no-print { display: none !important; }
   body { background: white; }
   .print-area { border: none !important; }
+  .loc44-print { overflow: visible !important; }
+  .loc44-print table { table-layout: fixed; font-size: 6pt; }
+  .loc44-print th, .loc44-print td { white-space: normal; overflow-wrap: anywhere; padding: 2pt; font-size: 6pt; letter-spacing: 0; }
+  .loc44-print thead { display: table-header-group; }
+  .loc44-print tr { break-inside: avoid; }
+  @page { size: A3 landscape; margin: 10mm; }
 }

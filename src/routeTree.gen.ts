@@ -17,6 +17,7 @@ import { Route as CustodiaRouteImport } from './routes/custodia'
 import { Route as DepositosRouteImport } from './routes/depositos'
 import { Route as EstadoSistemaRouteImport } from './routes/estado-sistema'
 import { Route as InventarioRouteImport } from './routes/inventario'
+import { Route as Loc44RouteImport } from './routes/loc44'
 import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as FoliosIndexRouteImport } from './routes/folios.index'
 import { Route as FoliosIdRouteImport } from './routes/folios.$id'
@@ -62,6 +63,11 @@ const InventarioRoute = InventarioRouteImport.update({
   path: '/inventario',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Loc44Route = Loc44RouteImport.update({
+  id: '/loc44',
+  path: '/loc44',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportesRoute = ReportesRouteImport.update({
   id: '/reportes',
   path: '/reportes',
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/depositos': typeof DepositosRoute
   '/estado-sistema': typeof EstadoSistemaRoute
   '/inventario': typeof InventarioRoute
+  '/loc44': typeof Loc44Route
   '/reportes': typeof ReportesRoute
   '/folios/$id': typeof FoliosIdRoute
   '/folios/nuevo': typeof FoliosNuevoRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/depositos': typeof DepositosRoute
   '/estado-sistema': typeof EstadoSistemaRoute
   '/inventario': typeof InventarioRoute
+  '/loc44': typeof Loc44Route
   '/reportes': typeof ReportesRoute
   '/folios/$id': typeof FoliosIdRoute
   '/folios/nuevo': typeof FoliosNuevoRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/depositos': typeof DepositosRoute
   '/estado-sistema': typeof EstadoSistemaRoute
   '/inventario': typeof InventarioRoute
+  '/loc44': typeof Loc44Route
   '/reportes': typeof ReportesRoute
   '/folios/$id': typeof FoliosIdRoute
   '/folios/nuevo': typeof FoliosNuevoRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/depositos'
     | '/estado-sistema'
     | '/inventario'
+    | '/loc44'
     | '/reportes'
     | '/folios/$id'
     | '/folios/nuevo'
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/depositos'
     | '/estado-sistema'
     | '/inventario'
+    | '/loc44'
     | '/reportes'
     | '/folios/$id'
     | '/folios/nuevo'
@@ -165,6 +176,7 @@ export interface FileRouteTypes {
     | '/depositos'
     | '/estado-sistema'
     | '/inventario'
+    | '/loc44'
     | '/reportes'
     | '/folios/$id'
     | '/folios/nuevo'
@@ -180,6 +192,7 @@ export interface RootRouteChildren {
   DepositosRoute: typeof DepositosRoute
   EstadoSistemaRoute: typeof EstadoSistemaRoute
   InventarioRoute: typeof InventarioRoute
+  Loc44Route: typeof Loc44Route
   ReportesRoute: typeof ReportesRoute
   FoliosIdRoute: typeof FoliosIdRoute
   FoliosNuevoRoute: typeof FoliosNuevoRoute
@@ -244,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InventarioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/loc44': {
+      id: '/loc44'
+      path: '/loc44'
+      fullPath: '/loc44'
+      preLoaderRoute: typeof Loc44RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reportes': {
       id: '/reportes'
       path: '/reportes'
@@ -284,6 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   DepositosRoute: DepositosRoute,
   EstadoSistemaRoute: EstadoSistemaRoute,
   InventarioRoute: InventarioRoute,
+  Loc44Route: Loc44Route,
   ReportesRoute: ReportesRoute,
   FoliosIdRoute: FoliosIdRoute,
   FoliosNuevoRoute: FoliosNuevoRoute,

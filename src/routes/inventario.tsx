@@ -1,10 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useUsuario } from "@/components/sica/Shell";
 import { Badge, Empty, Field, PageHeader, fmt, run } from "@/components/sica/ui";
 import { puede, registrarArma } from "@/lib/sica/engine";
 import { SITUACION_LABEL, useDerivado } from "@/lib/sica/hooks";
 import { CATEGORIA_LABEL, type Categoria } from "@/lib/sica/types";
+import { Button } from "@/components/ui/button";
+import { CAMPOS_LOC } from "@/lib/sica/loc44";
+import type { ArmaImportada } from "@/lib/sica/engine";
 
 export const Route = createFileRoute("/inventario")({
   head: () => ({
@@ -23,11 +26,12 @@ export const Route = createFileRoute("/inventario")({
 const SIT_TONE = { disponible: "ok", resguardo_personal: "info", mantenimiento: "warn", fuera_inventario: "neutral" } as const;
 
 function Inventario() {
-  const user = useUsuario()!;
+  const user = useUsuario();
   const { s, armas, consumibles, n } = useDerivado();
   const [tab, setTab] = useState<"arma" | Categoria>("arma");
   const [q, setQ] = useState("");
   const [alta, setAlta] = useState(false);
+  if (!user) return null;
   const ql = q.toLowerCase();
   // Depositario: solo datos de su agrupamiento
   const scope = user.rol === "depositario" ? user.agrupamientoId : undefined;
@@ -42,7 +46,7 @@ function Inventario() {
       <PageHeader
         title="Inventario maestro"
         desc={scope ? `Vista limitada a ${n.agr(scope)} (rol depositario).` : "Un solo inventario institucional. Adscripción, custodia y resguardo se derivan de los folios."}
-        actions={tab === "arma" && puede(user.rol, "registrarArma") && <button className="btn btn-primary" onClick={() => setAlta(!alta)}>Alta en catálogo</button>}
+        actions={<><Button asChild variant="outline"><Link to="/loc44">LOC 44 · Excel</Link></Button>{tab === "arma" && puede(user.rol, "registrarArma") && <Button onClick={() => setAlta(!alta)}>Alta en catálogo</Button>}</>}
       />
       <div className="mb-4 flex flex-wrap items-center gap-2">
         {(["arma", "cargador", "cartucho", "granada"] as const).map((t) => (
@@ -117,25 +121,20 @@ function Inventario() {
 
 function AltaArma({ onDone, userId }: { onDone: () => void; userId: string }) {
   const { s } = useDerivado();
-  const [f, setF] = useState({ tipo: "Pistola", marca: "", modelo: "", calibre: "9 mm", matricula: "", conservacion: "bueno" as const, refDoc: "" });
-  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
+  const [f, setF] = useState<ArmaImportada>({ tipo: "Pistola", marca: "", modelo: "", calibre: "9 mm", matricula: "", conservacion: "bueno", refDoc: "", mantenimiento: false });
+  const set = (k: keyof ArmaImportada) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
   return (
     <form
-      className="card mb-4 grid gap-3 p-4 sm:grid-cols-3 lg:grid-cols-6"
+      className="mb-4 grid gap-3 border-y py-4 sm:grid-cols-3 lg:grid-cols-4"
       onSubmit={(e) => {
         e.preventDefault();
         if (run(() => registrarArma(s, userId, { ...f, mantenimiento: false }), "Arma registrada en catálogo. Capture un folio de introducción para darle existencia.")) onDone();
       }}
     >
-      <Field label="Tipo"><input className="field" value={f.tipo} onChange={set("tipo")} required /></Field>
-      <Field label="Marca"><input className="field" value={f.marca} onChange={set("marca")} required /></Field>
-      <Field label="Modelo"><input className="field" value={f.modelo} onChange={set("modelo")} required /></Field>
-      <Field label="Calibre"><input className="field" value={f.calibre} onChange={set("calibre")} required /></Field>
-      <Field label="Matrícula (única)"><input className="field font-mono" value={f.matricula} onChange={set("matricula")} required /></Field>
-      <Field label="Referencia documental"><input className="field" value={f.refDoc} onChange={set("refDoc")} /></Field>
-      <div className="flex gap-2 sm:col-span-3 lg:col-span-6">
-        <button className="btn btn-primary">Registrar</button>
-        <button type="button" className="btn" onClick={onDone}>Cancelar</button>
+      {CAMPOS_LOC.map(([k, label]) => <Field key={k} label={label}>{k === "propietario" ? <select className="field" value={f.propietario ?? ""} onChange={set(k)}><option value="">Sin capturar</option>{["Estado", "Municipio", "Defensa"].map((p) => <option key={p}>{p}</option>)}</select> : k === "estadoLoc" ? <select className="field" value={f.estadoLoc ?? ""} onChange={set(k)}><option value="">Sin capturar</option>{["bueno", "malo", "extraviada", "asegurada"].map((p) => <option key={p}>{p}</option>)}</select> : <input className="field" value={f[k] ?? ""} onChange={set(k)} required={["tipo", "marca", "modelo", "calibre", "matricula"].includes(k)} />}</Field>)}
+      <div className="flex gap-2 sm:col-span-3 lg:col-span-4">
+        <Button type="submit">Registrar</Button>
+        <Button type="button" variant="outline" onClick={onDone}>Cancelar</Button>
       </div>
     </form>
   );

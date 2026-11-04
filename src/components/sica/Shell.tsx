@@ -11,6 +11,7 @@ import { Field } from "./ui";
 const NAV: { to: string; label: string; icon: typeof Package; permiso?: Permiso }[] = [
   { to: "/", label: "Panel principal", icon: LayoutDashboard },
   { to: "/inventario", label: "Inventario maestro", icon: Package },
+  { to: "/loc44", label: "LOC 44 · Excel", icon: FileText },
   { to: "/depositos", label: "Depósitos", icon: Warehouse },
   { to: "/agrupamientos", label: "Agrupamientos", icon: Users },
   { to: "/custodia", label: "Adscripción y custodia", icon: Search },

@@ -13,6 +13,7 @@ export type Permiso =
   | "revertir"
   | "catalogos"
   | "registrarArma"
+  | "importarExcel"
   | "auditoria";
 
 const PERMISOS: Record<Permiso, Rol[]> = {
@@ -23,6 +24,7 @@ const PERMISOS: Record<Permiso, Rol[]> = {
   revertir: ["jefe"],
   catalogos: ["admin", "jefe"],
   registrarArma: ["admin", "jefe", "operador"],
+  importarExcel: ["jefe"], // Demostrativo; en producción validar en servidor.
   auditoria: ["admin", "jefe", "auditor"],
 };
 export const puede = (rol: Rol | undefined, p: Permiso) => !!rol && PERMISOS[p].includes(rol);
@@ -325,4 +327,50 @@ export function altaCatalogo(
       ? { ...state, depositos: [...state.depositos, { ...item, tipo: "regional" as const }] }
       : { ...state, agrupamientos: [...state.agrupamientos, item] };
   return audit(s, userId, tipo === "deposito" ? "DEPOSITO_ALTA" : "AGRUPAMIENTO_ALTA", item.nombre);
+}
+
+export type ArmaImportada = Omit<Arma, "id" | "progresivo">;
+export type ModoImportacion = "inicial" | "introduccion" | "actualizacion";
+
+/** Importación atómica: las altas crean un folio pendiente, nunca saldos directos. */
+export function importarArmas(state: SicaState, userId: string, armas: ArmaImportada[], modo: ModoImportacion, depositoId: string, agrupamientoId: string, referencia: string): SicaState {
+  actor(state, userId, "importarExcel");
+  if (!armas.length) throw new SicaError("El archivo no contiene armas.");
+  if (!referencia.trim()) throw new SicaError("La referencia documental es obligatoria.");
+  const vistos = new Set<string>();
+  for (const a of armas) {
+    const mat = a.matricula.trim().toUpperCase();
+    if (!mat || !a.tipo.trim() || !a.marca.trim() || !a.modelo.trim() || !a.calibre.trim()) throw new SicaError("Clase, marca, modelo, calibre y matrícula son obligatorios en cada fila.");
+    if (vistos.has(mat)) throw new SicaError(`Matrícula repetida en el archivo: ${mat}.`);
+    vistos.add(mat);
+    const existe = state.armas.some((x) => x.matricula.toUpperCase() === mat);
+    if (modo === "actualizacion" && !existe) throw new SicaError(`Matrícula no registrada: ${mat}.`);
+    if (modo !== "actualizacion" && existe) throw new SicaError(`La matrícula ${mat} ya está registrada.`);
+    if (a.propietario && !["Estado", "Municipio", "Defensa"].includes(a.propietario)) throw new SicaError("Propietario inválido.");
+    if (a.estadoLoc && !["bueno", "malo", "extraviada", "asegurada"].includes(a.estadoLoc)) throw new SicaError("Estado LOC inválido.");
+  }
+  const normalizadas = armas.map((a) => ({ ...a, matricula: a.matricula.trim().toUpperCase() }));
+  if (modo === "actualizacion") {
+    const cambios = new Map(normalizadas.map((a) => [a.matricula, a]));
+    let next = { ...state, armas: state.armas.map((a) => {
+      const cambio = cambios.get(a.matricula.toUpperCase());
+      return cambio ? { ...a, ...cambio, id: a.id, progresivo: a.progresivo, mantenimiento: a.mantenimiento, conservacion: a.conservacion } : a;
+    }) };
+    for (const a of normalizadas) {
+      const anterior = state.armas.find((x) => x.matricula.toUpperCase() === a.matricula);
+      next = audit(next, userId, "LOC44_ACTUALIZA_ARMA", JSON.stringify({ referencia: referencia.trim(), matricula: a.matricula, antes: anterior, despues: next.armas.find((x) => x.matricula === a.matricula) }));
+    }
+    return next;
+  }
+  if (!state.depositos.some((d) => d.id === depositoId) || !state.agrupamientos.some((a) => a.id === agrupamientoId)) throw new SicaError("Seleccione depósito y agrupamiento válidos.");
+  const max = Math.max(0, ...state.armas.map((a) => a.progresivo));
+  const loteId = uid();
+  const nuevas = normalizadas.map((a, i) => ({ ...a, id: `a-${loteId}-${i}`, progresivo: max + i + 1 }));
+  const { state: next, folio } = capturarFolio({ ...state, armas: [...state.armas, ...nuevas] }, userId, {
+    tipo: modo, depositoDestinoId: depositoId, agrupDestinoId: agrupamientoId,
+    entrega: referencia.trim(), recibe: state.depositos.find((d) => d.id === depositoId)?.nombre ?? "",
+    obs: `Importación Excel LOC 44 · ${referencia.trim()} · ${armas.length} armas (ficticias).`,
+    partidas: nuevas.map((a) => ({ armaId: a.id, cantidad: 1 })),
+  });
+  return audit(next, userId, "LOC44_IMPORTA", `${referencia.trim()} · ${armas.length} armas · ${folioNumero(folio.numero)} pendiente`);
 }

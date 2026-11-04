@@ -47,6 +47,14 @@ export interface Arma {
   conservacion: "bueno" | "regular" | "malo";
   mantenimiento: boolean;
   refDoc: string;
+  funcionamiento?: string | undefined;
+  manifestacionC?: string | undefined;
+  manifestacionD?: string | undefined;
+  propietario?: "Estado" | "Municipio" | "Defensa" | undefined;
+  responsableObs?: string | undefined;
+  direccion?: string | undefined;
+  estadoLoc?: "bueno" | "malo" | "extraviada" | "asegurada" | undefined;
+  informacion?: string | undefined;
 }
 export interface Consumible {
   id: string;
