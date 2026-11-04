@@ -1,5 +1,7 @@
 # Ampliación SICA — LOC 44
 
+- [x] Responder viabilidad de un programa Windows sin internet por depósito y sus informes; no empaquetarlo sin solicitud de creación.
+
 - [ ] Campos completos de arma LOC 44, consulta y captura.
 - [ ] Excel masivo exclusivo del Jefe: validación, vista previa, altas y actualización documental auditada; existencias mediante folios.
 - [ ] Exportación XLSX para todos y listado imprimible LOC 44.
