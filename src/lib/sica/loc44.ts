@@ -48,7 +48,7 @@ export function revisarFilasLoc(filas: string[][]): RevisionExcel {
 
 export function filasLoc(armas: ArmaDerivada[], state: SicaState): (string | number)[][] {
   return armas.map((a) => [
-    ...CAMPOS_LOC.map(([k]) => k === "estadoLoc" ? a.estadoLoc ?? a.conservacion : a[k] ?? ""),
+    ...CAMPOS_LOC.map(([k]) => a[k] ?? ""),
     state.agrupamientos.find((g) => g.id === a.pos?.agr)?.nombre ?? "—",
     state.depositos.find((d) => d.id === a.pos?.dep)?.nombre ?? "—",
     state.personas.find((p) => p.id === a.pos?.per)?.nombre ?? "—",

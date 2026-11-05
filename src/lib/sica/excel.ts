@@ -34,7 +34,7 @@ export async function descargarExcel(nombre: string, cols: string[], rows: (stri
   });
   sheet.autoFilter = { from: { row: 1, column: 1 }, to: { row: 1, column: cols.length } };
   sheet.pageSetup = { orientation: "landscape", paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
-  sheet.headerFooter = { oddHeader: "SICA · LOC 44 · DATOS FICTICIOS", oddFooter: "Página &P de &N" };
+  sheet.headerFooter = { oddHeader: "&CSICA · DATOS FICTICIOS", oddFooter: "&CPágina &P de &N" };
   const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([new Uint8Array(buffer)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);
