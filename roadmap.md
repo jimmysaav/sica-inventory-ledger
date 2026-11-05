@@ -11,7 +11,14 @@
 - [x] Pruebas de permisos, importación de más de 1,000 armas, duplicados y trazabilidad.
 - [x] Documentar alcance y pendientes: programa aislado (una computadora por depósito), equipo operativo, datos laborales, informes balísticos/mensuales y biometría real.
 
-## Pendiente fuera de esta ampliación del prototipo
-- Programa aislado instalable: requiere una entrega independiente con almacenamiento seguro, respaldos y autenticación local; no equivale a esta vista web.
+## Entrega Windows aprobada
+- [ ] Programa portable Windows x64 sin red ni internet, con interfaz y tipografía locales.
+- [ ] Acceso individual, almacenamiento protegido y transacciones locales, permisos y auditoría fuera de la interfaz.
+- [ ] Configuración del depósito y elementos; equipo operativo y entregas/devoluciones diarias.
+- [ ] Informes por periodo, resguardos individuales y Excel/impresión locales.
+- [ ] Respaldos y restauración verificada; pruebas y archivo descargable inspeccionado.
+- [ ] Ejecución del paquete en Windows: requiere una computadora Windows, no disponible en este entorno.
+
+## Pendiente fuera de esta entrega
 - Biometría real: requiere modelo de lector, interfaz de integración y autorización institucional para datos biométricos.
 - Uso operativo/multiusuario: requiere infraestructura y autenticación seguras; se mantiene solo información ficticia.
