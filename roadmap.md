@@ -1,6 +1,8 @@
 # Ampliación SICA — LOC 44
 
 - [x] Responder viabilidad de un programa Windows sin internet por depósito y sus informes; no empaquetarlo sin solicitud de creación.
+- [ ] Explicar créditos para terminar: consumo variable, sin presupuesto exacto garantizable.
+- [ ] Preparar propuesta de instalación Windows totalmente aislada, sin red ni internet, conforme a la solicitud del 5 de noviembre.
 
 - [ ] Campos completos de arma LOC 44, consulta y captura.
 - [ ] Excel masivo exclusivo del Jefe: validación, vista previa, altas y actualización documental auditada; existencias mediante folios.
