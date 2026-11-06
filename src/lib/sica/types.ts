@@ -35,7 +35,12 @@ export interface Persona {
   idInst: string;
   area: string;
   agrupamientoId: string;
+  usuario?: string;
+  telefono?: string;
+  nombramiento?: string;
 }
+export interface EquipoOperativo { id: string; descripcion: string; serie: string }
+export interface MovimientoEquipo { id: string; equipoId: string; personaId: string; userId: string; fecha: string; tipo: "alta" | "entrega" | "devolucion"; motivo: string }
 export interface Arma {
   id: string;
   progresivo: number;
@@ -118,6 +123,8 @@ export interface SicaState {
   consumibles: Consumible[];
   folios: Folio[];
   auditoria: Auditoria[];
+  equipo?: EquipoOperativo[];
+  movimientosEquipo?: MovimientoEquipo[];
 }
 
 export const TIPO_FOLIO_LABEL: Record<TipoFolio, string> = {

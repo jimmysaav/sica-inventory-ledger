@@ -2,7 +2,7 @@
  * Motor de reglas SICA. Funciones puras: los saldos NUNCA se guardan,
  * se calculan a partir de folios aplicados (incluido el inventario inicial).
  */
-import type { Arma, Folio, Partida, Rol, SicaState, TipoFolio, Usuario } from "./types";
+import type { Arma, Folio, Partida, Persona, Rol, SicaState, TipoFolio, Usuario, Categoria } from "./types";
 import { folioNumero } from "./types";
 
 export type Permiso =
@@ -331,6 +331,68 @@ export function altaCatalogo(
 
 export type ArmaImportada = Omit<Arma, "id" | "progresivo">;
 export type ModoImportacion = "inicial" | "introduccion" | "actualizacion";
+
+export function registrarPersonaLocal(state: SicaState, userId: string, p: Omit<Persona, "id">): SicaState {
+  actor(state, userId, "catalogos");
+  if (!p.nombre.trim() || !p.idInst.trim()) throw new SicaError("Nombre y número de elemento obligatorios.");
+  if (!state.agrupamientos.some((a) => a.id === p.agrupamientoId)) throw new SicaError("Adscripción inexistente.");
+  if (state.personas.some((x) => x.idInst.toUpperCase() === p.idInst.toUpperCase())) throw new SicaError("Número de elemento duplicado.");
+  return audit({ ...state, personas: [...state.personas, { ...p, id: `p-${uid()}` }] }, userId, "ELEMENTO_ALTA", p.idInst);
+}
+
+export function custodioEquipo(state: SicaState, equipoId: string, corte?: string): string | null {
+  const movs = (state.movimientosEquipo ?? []).filter((m) => m.equipoId === equipoId && (!corte || m.fecha <= corte));
+  const ultimo = movs.at(-1);
+  return ultimo?.tipo === "entrega" ? ultimo.personaId : null;
+}
+export function registrarEquipoLocal(state: SicaState, userId: string, descripcion: string, serie: string): SicaState {
+  actor(state, userId, "catalogos");
+  if (!descripcion.trim() || !serie.trim()) throw new SicaError("Descripción y serie obligatorias.");
+  if (state.equipo?.some((e) => e.serie.toUpperCase() === serie.trim().toUpperCase())) throw new SicaError("Serie de equipo duplicada.");
+  const id = `e-${uid()}`;
+  return audit({ ...state, equipo: [...(state.equipo ?? []), { id, descripcion: descripcion.trim(), serie: serie.trim().toUpperCase() }], movimientosEquipo: [...(state.movimientosEquipo ?? []), { id: uid(), equipoId: id, personaId: "", userId, fecha: ahora(), tipo: "alta", motivo: "Alta de equipo ficticio" }] }, userId, "EQUIPO_ALTA", serie);
+}
+export function registrarConsumibleLocal(state: SicaState, userId: string, c: { categoria: Categoria; descripcion: string; calibre: string; cantidad: number; referencia: string }, depositoId: string, agrupamientoId: string): SicaState {
+  actor(state, userId, "catalogos");
+  if (!c.descripcion.trim() || !Number.isSafeInteger(c.cantidad) || c.cantidad <= 0) throw new SicaError("Descripción y cantidad positiva obligatorias.");
+  const id = `c-${uid()}`;
+  const next = { ...state, consumibles: [...state.consumibles, { id, categoria: c.categoria, descripcion: c.descripcion.trim(), calibre: c.calibre, detalle: c.referencia }] };
+  return capturarFolio(next, userId, { tipo: "introduccion", depositoDestinoId: depositoId, agrupDestinoId: agrupamientoId, entrega: c.referencia, recibe: "Depósito local", obs: c.referencia, partidas: [{ itemId: id, cantidad: c.cantidad }] }).state;
+}
+export function servicioLocal(state: SicaState, userId: string, data: { personaId: string; devolver: boolean; partidas: Partida[]; equipoIds: string[]; motivo: string; depositoId: string; agrupamientoId: string }): SicaState {
+  actor(state, userId, "capturar");
+  const persona = state.personas.find((p) => p.id === data.personaId);
+  if (!persona || persona.agrupamientoId !== data.agrupamientoId) throw new SicaError("Elemento no adscrito a este depósito.");
+  if (!data.partidas.length && !data.equipoIds.length) throw new SicaError("Seleccione al menos un bien.");
+  if (new Set(data.equipoIds).size !== data.equipoIds.length) throw new SicaError("Equipo repetido.");
+  const itemIds = data.partidas.map((p) => p.armaId ? `A:${p.armaId}` : `C:${p.itemId}`);
+  if (new Set(itemIds).size !== itemIds.length) throw new SicaError("Partida duplicada.");
+  for (const p of data.partidas) {
+    if (p.armaId && !state.armas.some((a) => a.id === p.armaId)) throw new SicaError("Arma inexistente.");
+    if (p.itemId && !state.consumibles.some((c) => c.id === p.itemId)) throw new SicaError("Consumible inexistente.");
+    if (!!p.armaId === !!p.itemId) throw new SicaError("Partida inválida.");
+  }
+  for (const id of data.equipoIds) {
+    if (!state.equipo?.some((e) => e.id === id)) throw new SicaError("Equipo inexistente.");
+    const custodio = custodioEquipo(state, id);
+    if (data.devolver ? custodio !== persona.id : !!custodio) throw new SicaError("Equipo no disponible para esta operación.");
+  }
+  let next = state;
+  if (data.partidas.length) {
+    const tipo = data.devolver ? "dev_personal" : "ext_personal";
+    const fecha = ahora();
+    const f: Folio = { id: `f-${uid()}`, numero: Math.max(0, ...state.folios.map((x) => x.numero)) + 1, fecha, fechaAutoriza: fecha, tipo,
+      depositoOrigenId: data.depositoId, agrupOrigenId: data.agrupamientoId, personaId: persona.id,
+      capturaUserId: userId, autorizaUserId: userId, entrega: data.devolver ? persona.nombre : "Depósito local", recibe: data.devolver ? "Depósito local" : persona.nombre,
+      obs: data.motivo, partidas: data.partidas, estado: "aplicado" };
+    const errors = validarFolio(state, f);
+    if (errors.length) throw new SicaError(errors.join(" "));
+    next = { ...state, folios: [...state.folios, f] };
+  }
+  const fecha = ahora();
+  next = { ...next, movimientosEquipo: [...(next.movimientosEquipo ?? []), ...data.equipoIds.map((equipoId) => ({ id: uid(), equipoId, personaId: persona.id, userId, fecha, tipo: data.devolver ? "devolucion" as const : "entrega" as const, motivo: data.motivo }))] };
+  return audit(next, userId, data.devolver ? "SERVICIO_DEVOLUCION" : "SERVICIO_ENTREGA", `${persona.idInst} · ${data.motivo} · ${data.partidas.length + data.equipoIds.length} partidas · identidad del elemento verificada localmente`);
+}
 
 /** Importación atómica: las altas crean un folio pendiente, nunca saldos directos. */
 export function importarArmas(state: SicaState, userId: string, armas: ArmaImportada[], modo: ModoImportacion, depositoId: string, agrupamientoId: string, referencia: string): SicaState {
