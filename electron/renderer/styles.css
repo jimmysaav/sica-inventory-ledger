@@ -1,0 +1,11 @@
+@import "../../src/styles.css";
+@source "../renderer";
+
+h1, h2, h3 { letter-spacing: 0; }
+@media print {
+  aside, header, form { display: none !important; }
+  main { padding: 0 !important; }
+  table { table-layout: fixed; font-size: 7pt !important; }
+  .data-table th, .data-table td { padding: 3pt; white-space: normal; overflow-wrap: anywhere; font-size: 7pt; letter-spacing: 0; }
+  thead { display: table-header-group; }
+}

@@ -1,0 +1,47 @@
+SICA LOCAL PARA WINDOWS — VERSION DE PRUEBA 0.1
+SOLO DATOS FICTICIOS. NO APTO PARA USO OPERATIVO.
+
+REQUISITOS
+Windows 10/11 de 64 bits. Una computadora por depósito.
+No requiere internet, red local, navegador instalado ni cuenta Lovable.
+La preparación del paquete no sustituye una prueba real en Windows.
+
+ABRIR
+1. Extraiga TODO el ZIP en una carpeta local, por ejemplo Documentos\SICA Local.
+2. Abra SICA Local.exe. No mueva solamente el ejecutable: necesita los archivos de la carpeta.
+3. Si Windows muestra una advertencia de editor no verificado, consulte al responsable informático institucional. Este paquete no está firmado; no desactive protecciones del equipo.
+4. Al primer inicio configure nombres ficticios del depósito y agrupamiento, y el usuario Jefe. Elija una contraseña propia de al menos 12 caracteres; no existe contraseña predeterminada.
+5. Si no dispone de protección de claves de Windows, el programa no abrirá el almacén sin cifrado.
+
+INVENTARIO Y FOLIOS
+Armas: descargue la plantilla XLSX, capture exclusivamente datos ficticios y use Importar Excel como Jefe. Campos mínimos: clase, marca, modelo, calibre y matrícula.
+Los campos adicionales de LOC 44 se capturan en la misma plantilla. Solo primera hoja, encabezados en fila 1 y valores sin fórmulas.
+Todo lote pertenece al depósito y agrupamiento local. Inventario inicial/compras crean un folio pendiente; abra Folios y autorícelo para generar existencias. Actualizaciones documentales por matrícula no cambian posiciones ni saldos.
+Consumibles: como Jefe/Admin capture cartuchos, cargadores y granadas, y autorice su folio de introducción.
+Equipo: capture chalecos, radios, aros, kits u otros bienes por serie única.
+
+ELEMENTOS Y SERVICIO
+Capture datos laborales ficticios en Elementos. Asigne una contraseña individual al elemento.
+Entrega/devolución: seleccione el elemento, movimiento, motivo y cantidades/equipo. El elemento debe confirmar con su contraseña. La operación queda aplicada con usuario, fecha y hora.
+No se admiten saldos negativos, matrículas/series duplicadas ni equipo ya entregado a otra persona.
+No hay captura de huellas digitales. La integración del lector requiere entrega posterior autorizada.
+
+INFORMES
+Estado de fuerza: existencias al cierre de la fecha Hasta, no suma de movimientos.
+Bitácora: movimientos entre Desde y Hasta, con fechas locales de la computadora.
+Resguardo personal: seleccione elemento y fecha de corte para listar armas, consumibles y equipo.
+LOC 44: listado al cierre. Todos pueden exportar XLSX e imprimir o guardar PDF desde la impresión de Windows.
+Los formatos son de prueba; informe balístico y formatos institucionales oficiales pendientes de validación.
+
+RESPALDOS Y RESTAURACION
+El Jefe/Admin crea un respaldo cifrado desde Usuarios y respaldos, con contraseña de 12 caracteres mínimo. Guárdelo en una unidad aprobada por la institución, fuera de la computadora original.
+Los datos locales se cifran con clave protegida por la cuenta Windows. Copiar directamente la carpeta de datos no es un método de transferencia: use respaldos cifrados y su contraseña para otra computadora/cuenta Windows.
+Restaurar sustituye los datos actuales. Cree un respaldo previo. Una contraseña incorrecta o un respaldo alterado se rechaza. Después de restaurar inicie sesión con un usuario del respaldo.
+Si pierde las contraseñas, no hay recuperación en línea ni puerta trasera. Conserve contraseñas y respaldos por el procedimiento institucional.
+Datos: carpeta de usuario de Windows, normalmente %APPDATA%\SICA Local Prueba. No se guardan junto al ejecutable.
+
+LIMITES
+Sin sincronización automática. Lleve los informes mediante archivos autorizados.
+No es un instalador firmado: es una carpeta portable. Puede crear un acceso directo a SICA Local.exe desde Windows.
+Las protecciones locales no impiden que un administrador del equipo modifique el programa o elimine archivos; se requiere control institucional del dispositivo, revisión de seguridad y políticas de respaldo antes de usar información real.
+Prueba de ejecución completa en Windows todavía pendiente. La versión web de demostración es independiente de estos datos.

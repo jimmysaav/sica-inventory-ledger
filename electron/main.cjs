@@ -35,7 +35,7 @@ else app.whenReady().then(async () => {
         if (!request || typeof request.method !== 'string') throw new Error('Solicitud inválida.');
         let result;
         switch(request.method) {
-          case 'status': result = { configured: !!service.openStatus?.() || status.configured }; try { result.configured = !!service.read(); } catch {} break;
+          case 'status': result = { configured: status.configured }; break;
           case 'setup': result = service.setup(request.data); status.configured = true; break;
           case 'login': result = service.login(request.data); break;
           case 'logout': service.logout(); result = null; break;

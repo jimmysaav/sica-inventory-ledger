@@ -15,3 +15,4 @@
 - Prototype persistence is browser localStorage (`store.ts`); replace with server DB per `docs/modelo-relacional.sql`.
 - LOC spreadsheet mapping and validation live in `loc44.ts`; browser ExcelJS is loaded only on user actions in `excel.ts`, so spreadsheet data remains on the device and SSR does not execute workbook processing.
 - Bulk weapon intake is an atomic engine action with a pending inventory folio; documentary updates preserve positions and audit before/after values to keep ledger integrity.
+- Read `electron/AGENTS.md` before editing desktop code; the isolated desktop build uses its own TanStack hash router and never imports the web Start bootstrap.

@@ -1,0 +1,12 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+import { packager } from "@electron/packager";
+const stage="/tmp/sica-desktop-stage";
+await fs.rm(stage,{recursive:true,force:true});
+await fs.mkdir(path.join(stage,"electron"),{recursive:true});
+await fs.cp("electron/dist",path.join(stage,"dist"),{recursive:true});
+for(const name of ["main.cjs","preload.cjs","service.cjs","sql-wasm.cjs","sql-wasm.wasm"])await fs.copyFile(path.join("electron",name),path.join(stage,"electron",name));
+await fs.copyFile("electron/LEEME-WINDOWS.txt",path.join(stage,"LEEME-WINDOWS.txt"));
+await fs.writeFile(path.join(stage,"package.json"),JSON.stringify({name:"sica-local-prueba",version:"0.1.0",main:"electron/main.cjs",description:"SICA Local offline prototype",author:"SICA",license:"UNLICENSED"}));
+const outputs=await packager({dir:stage,name:"SICA Local",platform:"win32",arch:"x64",electronVersion:"45.2.1",out:"/tmp/sica-windows-release",overwrite:true,asar:false,prune:false,download:{strictSSL:true},win32metadata:{ProductName:"SICA Local Prueba",FileDescription:"SICA offline — solo datos ficticios",CompanyName:"SICA"}});
+console.log(outputs.join("\n"));
