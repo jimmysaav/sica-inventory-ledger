@@ -22,7 +22,7 @@ export async function leerExcel(file: File): Promise<string[][]> {
   return rows;
 }
 
-export async function descargarExcel(nombre: string, cols: string[], rows: (string | number)[][]) {
+export async function descargarExcel(nombre: string, cols: string[], rows: (string | number)[][], metadata?: (string | number)[][]) {
   const wb = await libro();
   wb.creator = "SICA — Prototipo ficticio";
   const sheet = wb.addWorksheet("SICA", { views: [{ state: "frozen", ySplit: 1 }] });
@@ -35,6 +35,12 @@ export async function descargarExcel(nombre: string, cols: string[], rows: (stri
   sheet.autoFilter = { from: { row: 1, column: 1 }, to: { row: 1, column: cols.length } };
   sheet.pageSetup = { orientation: "landscape", paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
   sheet.headerFooter = { oddHeader: "&CSICA · DATOS FICTICIOS", oddFooter: "&CPágina &P de &N" };
+  if (metadata) {
+    const info = wb.addWorksheet("Periodo");
+    info.columns = [{ width: 28 }, { width: 65 }];
+    info.addRows(metadata);
+    info.eachRow((row) => { row.alignment = { wrapText: true, vertical: "top" }; });
+  }
   const buffer = await wb.xlsx.writeBuffer();
   const blob = new Blob([new Uint8Array(buffer)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   const url = URL.createObjectURL(blob);

@@ -12,6 +12,8 @@
 - [x] Documentar alcance y pendientes: programa aislado (una computadora por depósito), equipo operativo, datos laborales, informes balísticos/mensuales y biometría real.
 
 ## Entrega Windows aprobada
+- [ ] Verificar arranque en frío, persistencia tras reinicio e informes sin servicios externos; distinguir pruebas locales de Windows real.
+- [ ] Completar informes mensuales entre fecha de inicio y fecha de corte, con límites inclusivos y periodo en Excel/impresión.
 - [x] Programa portable Windows x64 con interfaz y tipografía locales; paquete generado, ejecución en Windows pendiente.
 - [x] Acceso individual, almacenamiento protegido y transacciones locales, permisos y auditoría fuera de la interfaz.
 - [x] Configuración del depósito y elementos; equipo operativo y entregas/devoluciones diarias.
