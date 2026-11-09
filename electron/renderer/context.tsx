@@ -14,7 +14,7 @@ export function LocalProvider({ children }: { children: ReactNode }) {
   const [busy, setBusy] = useState(false);
   const [f, setF] = useState({ usuario: "", password: "", nombre: "", deposito: "", agrupamiento: "" });
   useEffect(() => { void local<{ configured: boolean }>("status").then((s) => setConfigured(s.configured)).catch((e) => setError(e.message)); }, []);
-  const logout = () => { void local("logout").then(() => setSession(null)); };
+  const logout = () => { setSession(null); setF((f) => ({ ...f, password: "" })); void local("logout").catch((e) => setError(e.message)); };
   if (!session) return <main className="mx-auto flex min-h-screen max-w-lg items-center p-6"><div className="w-full">
     <p className="mb-2 text-xs font-semibold text-warning">WINDOWS LOCAL · DATOS FICTICIOS · NO OPERATIVO</p>
     <h1 className="mb-6 text-2xl font-semibold">SICA · Depósito local</h1>

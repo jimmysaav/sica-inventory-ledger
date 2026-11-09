@@ -12,11 +12,11 @@
 - [x] Documentar alcance y pendientes: programa aislado (una computadora por depósito), equipo operativo, datos laborales, informes balísticos/mensuales y biometría real.
 
 ## Entrega Windows aprobada
-- [ ] Programa portable Windows x64 sin red ni internet, con interfaz y tipografía locales.
-- [ ] Acceso individual, almacenamiento protegido y transacciones locales, permisos y auditoría fuera de la interfaz.
-- [ ] Configuración del depósito y elementos; equipo operativo y entregas/devoluciones diarias.
-- [ ] Informes por periodo, resguardos individuales y Excel/impresión locales.
-- [ ] Respaldos y restauración verificada; pruebas y archivo descargable inspeccionado.
+- [x] Programa portable Windows x64 con interfaz y tipografía locales; paquete generado, ejecución en Windows pendiente.
+- [x] Acceso individual, almacenamiento protegido y transacciones locales, permisos y auditoría fuera de la interfaz.
+- [x] Configuración del depósito y elementos; equipo operativo y entregas/devoluciones diarias.
+- [x] Informes por periodo, resguardos individuales y Excel/impresión locales.
+- [x] Respaldos y restauración verificados mediante pruebas automatizadas; paquete inspeccionado y descarga preparada.
 - [ ] Ejecución del paquete en Windows: requiere una computadora Windows, no disponible en este entorno.
 
 ## Pendiente fuera de esta entrega

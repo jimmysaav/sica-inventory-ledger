@@ -9,7 +9,7 @@ import { calcularSaldos, custodioEquipo, posicionArma } from "../src/lib/sica/en
 
 const pw = "Clave-ficticia-1234";
 let SQL: Awaited<ReturnType<typeof initSQL>>;
-beforeAll(async()=>{ SQL=await initSQL(path.resolve("electron")); });
+beforeAll(async()=>{ SQL=await initSQL(path.resolve("electron/dist/main")); });
 function fixture() {
   const file=path.join(fs.mkdtempSync(path.join(os.tmpdir(),"sica-test-")),"local.sica");
   const key=randomBytes(32);
